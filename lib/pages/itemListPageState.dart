@@ -16,6 +16,41 @@ class ItemListPageState extends State {
     
   List<Item> get items => retrieveItems(context) ?? new List<Item>();
 
+  List<Widget> generateTiles() {
+    List<Widget> tiles = new List(items.length);
+    var currentItems = this.items;
+    for(int i = 0; i < currentItems.length; i++) {
+      tiles[i] = Stack(
+        children: [
+          Positioned.fill(
+            child: Ink.image(
+              image: AssetImage(items[i].placeholder),
+              fit: BoxFit.cover,
+              child: Container()
+            )
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Color.fromARGB(75, 0, 0, 0),
+              ),
+              padding: EdgeInsets.fromLTRB(8, 12, 8, 12),
+              child: Text(items[i].name,
+                style: TextStyle(fontSize: 18, color: Colors.white),
+                overflow: TextOverflow.ellipsis
+              ),
+            )
+          ),
+        ]
+      );
+    }
+
+    return tiles;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,19 +58,9 @@ class ItemListPageState extends State {
         title: Text(title),
         elevation: 0,
       ),
-      body: Container(
-        child: ListView.separated(
-          separatorBuilder: (context, index) => Divider(height: 0),
-          itemCount: items.length + 1,
-          itemBuilder: (context, i) {
-            if (i == items.length) {
-              return Center(
-                heightFactor: 3,
-                child: Text('End of results'),
-              );
-            } else return _buildRow(items[i]);
-          },
-        )
+      body: GridView.count(
+        crossAxisCount: 2,
+        children: generateTiles(),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: null,
@@ -43,18 +68,6 @@ class ItemListPageState extends State {
         elevation: 0,
         child: Icon(Icons.add),
       ),
-    );
-  }
-
-  Widget _buildRow(Item item) {
-    return ListTile(
-      leading: Image.asset(item.placeholder, width: 100, height: 88, fit: BoxFit.cover),
-      contentPadding: const EdgeInsets.fromLTRB(0, 16, 16, 16),
-      title: Text(item.name),
-      trailing: Icon(Icons.arrow_forward),
-      onTap: () {
-        onItemTap(context, item);
-      },
     );
   }
 }
