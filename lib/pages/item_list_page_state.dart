@@ -40,47 +40,7 @@ class ItemListPageState extends State {
         return ListView.builder(
           itemCount: items.length,
           itemBuilder: (context, i) {
-            Recipe recipe = (items[i] as Recipe);
-            return Card(
-              elevation: 8,
-              margin: EdgeInsets.all(16),
-              child: InkWell(
-                splashColor: Theme.of(context).colorScheme.primary.withAlpha(75),
-                highlightColor: Theme.of(context).colorScheme.primary.withAlpha(50),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Ink.image(
-                      image: AssetImage(items[i].placeholder),
-                      fit: BoxFit.cover,
-                      height: 200,
-                      child: Container()
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(items[i].name, style: TextStyle(fontSize: 18)),
-                          Container(
-                            margin: EdgeInsets.only(top: 16, bottom: 16),
-                            child: RecipeAttributes(
-                              values: RecipeAttributeValues(
-                                time: recipe.time,
-                                servings: recipe.servings,
-                                difficulty: recipe.difficulty,
-                              ),
-                            ),
-                          ),
-                          Text(recipe.instructions, style: TextStyle(fontSize: 14), overflow: TextOverflow.fade, maxLines: 6,),
-                        ],
-                      )
-                    )
-                  ],
-                ),
-                onTap: (){},
-              )
-            );
+            return generateTile(items[i]);
           },
         );
     }
@@ -122,7 +82,49 @@ class ItemListPageState extends State {
           onItemTap(context, item);
         });
       case ItemListPageStateStyle.Recipe:
-        return Container();
+        Recipe recipe = (item as Recipe);
+        return Card(
+              elevation: 8,
+              margin: EdgeInsets.all(16),
+              child: InkWell(
+                splashColor: Theme.of(context).colorScheme.primary.withAlpha(75),
+                highlightColor: Theme.of(context).colorScheme.primary.withAlpha(50),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Ink.image(
+                      image: AssetImage(item.placeholder),
+                      fit: BoxFit.cover,
+                      height: 200,
+                      child: Container()
+                    ),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(item.name, style: TextStyle(fontSize: 18)),
+                          Container(
+                            margin: EdgeInsets.symmetric(vertical: 16),
+                            child: RecipeAttributes(
+                              values: RecipeAttributeValues(
+                                time: recipe.time,
+                                servings: recipe.servings,
+                                difficulty: recipe.difficulty,
+                              ),
+                            ),
+                          ),
+                          Text(recipe.instructions, style: TextStyle(fontSize: 14), overflow: TextOverflow.fade, maxLines: 6,),
+                        ],
+                      )
+                    )
+                  ],
+                ),
+                onTap: (){
+                  onItemTap(context, item);
+                },
+              )
+            );
     }
   }
 
