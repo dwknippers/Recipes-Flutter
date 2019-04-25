@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipes/model/data_provider.dart';
-import 'package:recipes/pages/itemListPageState.dart';
+import 'package:recipes/pages/item_list_page_state.dart';
 
 class DishesPage extends StatefulWidget {
   @override

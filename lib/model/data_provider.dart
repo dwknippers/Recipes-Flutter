@@ -59,6 +59,6 @@ class DataProvider {
       )
     };
 
-    mainDish.recipies = [recipes.values.first];
+    mainDish.recipies = [recipes.values.first, recipes.values.first];
   }
 }

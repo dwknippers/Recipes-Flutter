@@ -16,5 +16,5 @@ class Recipe extends Item {
     this.difficulty,
     this.requirements,
     this.instructions,
-    int servings}) : super(name: name, placeholder: placeholder);
+    this.servings}) : super(name: name, placeholder: placeholder);
 }

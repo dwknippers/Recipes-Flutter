@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:recipes/pages/dishesPage.dart';
-import 'package:recipes/pages/recipesPage.dart';
+import 'package:recipes/pages/dishes_page.dart';
+import 'package:recipes/pages/recipes_page.dart';
 
 void main() => runApp(RecipesApp());
 
