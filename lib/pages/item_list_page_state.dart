@@ -3,9 +3,7 @@ import 'package:recipes/model/item.dart';
 import 'package:recipes/model/recipe.dart';
 import 'package:recipes/widgets/recipe_attributes.dart';
 
-enum ItemListPageStateStyle {
-  Dish, Recipe
-}
+enum ItemListPageStateStyle { Dish, Recipe }
 
 class ItemListPageState extends State {
   Function retrieveItems;
@@ -14,14 +12,13 @@ class ItemListPageState extends State {
   Function onItemTap;
   ItemListPageStateStyle style;
 
-  ItemListPageState({
-    this.retrieveItems,
-    this.title,
-    this.labelAdd,
-    this.style = ItemListPageStateStyle.Dish,
-    @required this.onItemTap});
+  ItemListPageState(
+      {this.retrieveItems,
+      this.title,
+      this.labelAdd,
+      this.style = ItemListPageStateStyle.Dish,
+      @required this.onItemTap});
 
-  
   List<Item> _cachedItems;
   List<Item> get items {
     if (_cachedItems != null) return _cachedItems;
@@ -30,12 +27,9 @@ class ItemListPageState extends State {
   }
 
   dynamic generateBody() {
-    switch(style) {
+    switch (style) {
       case ItemListPageStateStyle.Dish:
-        return GridView.count(
-          crossAxisCount: 2,
-          children: generateTiles()
-        );
+        return GridView.count(crossAxisCount: 2, children: generateTiles());
       case ItemListPageStateStyle.Recipe:
         return ListView.builder(
           itemCount: items.length,
@@ -47,58 +41,57 @@ class ItemListPageState extends State {
   }
 
   Widget generateTile(Item item) {
-    switch(style) {
+    switch (style) {
       case ItemListPageStateStyle.Dish:
-        return InkWell(
-          splashColor: Theme.of(context).colorScheme.primary.withAlpha(75),
-          highlightColor: Theme.of(context).colorScheme.primary.withAlpha(50),
-          child: Stack(
-          children: [
-            Positioned.fill(
-              child: Ink.image(
-                image: AssetImage(item.placeholder),
-                fit: BoxFit.cover,
-                child: Container()
-              )
-            ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Ink(
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(75, 0, 0, 0),
-                ),
-                padding: EdgeInsets.fromLTRB(8, 12, 8, 12),
-                child: Text(item.name,
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                  overflow: TextOverflow.ellipsis
-                ),
-              )
-            )
-          ]
+        return Card(
+            margin: EdgeInsets.all(10),
+            elevation: 6,
+            child: InkWell(
+              splashColor: Theme.of(context).colorScheme.primary.withAlpha(75),
+              highlightColor: Theme.of(context).colorScheme.primary.withAlpha(50),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Ink.image(
+                      image: AssetImage(item.placeholder),
+                      fit: BoxFit.cover,
+                      child: Container()
+                    )
+                  ),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(10, 8, 8, 10),
+                    child: Text(
+                      item.name,
+                      style: TextStyle(fontSize: 18, color: Colors.black),
+                      overflow: TextOverflow.ellipsis,
+                    )
+                  ),
+                ]
+              ),
+          onTap: () {
+            onItemTap(context, item);
+          },
         ),
-        onTap: (){
-          onItemTap(context, item);
-        });
+      );
       case ItemListPageStateStyle.Recipe:
         Recipe recipe = (item as Recipe);
         return Card(
-              elevation: 8,
-              margin: EdgeInsets.all(16),
-              child: InkWell(
-                splashColor: Theme.of(context).colorScheme.primary.withAlpha(75),
-                highlightColor: Theme.of(context).colorScheme.primary.withAlpha(50),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Ink.image(
+            elevation: 6,
+            margin: EdgeInsets.all(16),
+            child: InkWell(
+              splashColor: Theme.of(context).colorScheme.primary.withAlpha(75),
+              highlightColor:
+                  Theme.of(context).colorScheme.primary.withAlpha(50),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Ink.image(
                       image: AssetImage(item.placeholder),
                       fit: BoxFit.cover,
                       height: 200,
-                      child: Container()
-                    ),
-                    Container(
+                      child: Container()),
+                  Container(
                       margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,17 +107,20 @@ class ItemListPageState extends State {
                               ),
                             ),
                           ),
-                          Text(recipe.instructions, style: TextStyle(fontSize: 14), overflow: TextOverflow.fade, maxLines: 6,),
+                          Text(
+                            recipe.instructions,
+                            style: TextStyle(fontSize: 14),
+                            overflow: TextOverflow.fade,
+                            maxLines: 6,
+                          ),
                         ],
-                      )
-                    )
-                  ],
-                ),
-                onTap: (){
-                  onItemTap(context, item);
-                },
-              )
-            );
+                      ))
+                ],
+              ),
+              onTap: () {
+                onItemTap(context, item);
+              },
+            ));
     }
   }
 
@@ -132,7 +128,7 @@ class ItemListPageState extends State {
     List<Widget> tiles = new List(items.length);
     var currentItems = this.items;
 
-    for(int i = 0; i < currentItems.length; i++) {
+    for (int i = 0; i < currentItems.length; i++) {
       tiles[i] = generateTile(items[i]);
     }
 
