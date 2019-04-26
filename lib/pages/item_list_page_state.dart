@@ -139,8 +139,15 @@ class ItemListPageState extends State {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
-        elevation: 0,
+        title: Row(
+          children:[
+            Container(
+              margin: EdgeInsets.only(right: 16),
+              child: Image.asset('assets/images/cutlery.png'),
+            ),
+            Text(title),
+          ]
+        )
       ),
       body: generateBody(),
       floatingActionButton: FloatingActionButton(
